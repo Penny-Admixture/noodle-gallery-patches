@@ -1,0 +1,37 @@
+# noodle-gallery-patches — compose overlay for the Noodle Gallery stack.
+#
+# Put this file next to docker-compose.yml and .env (on Penny's PC:
+# C:\Users\llm_development\noodle-gallery) and run:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.patches.yml up -d
+#
+# What it changes, and nothing else:
+#   1. immich-server runs the derived image built by build.sh — the real
+#      upstream gallery-server image with our patches baked in.
+#   2. gallery-patcher is a one-shot service: once the server is healthy
+#      it applies Patch 001 (the Outlook Sunset theme) through the API,
+#      verifies the result, and exits. Idempotent — safe on every up.
+#
+# One-time setup: create an API key on an admin account
+# (Administration -> API Keys) and add this line to the .env file:
+#   GALLERY_ADMIN_API_KEY=<the key>
+# Without it the patcher exits with an error that says exactly that.
+#
+# The version tag below must match the tag build.sh built. When you bump
+# the upstream version, change it in both places (see README.md).
+
+services:
+  immich-server:
+    image: noodle-gallery-server-patched:v5.11.1
+
+  gallery-patcher:
+    image: noodle-gallery-server-patched:v5.11.1
+    container_name: gallery_patcher
+    command: ["node /patches/apply-theme.mjs"]
+    environment:
+      GALLERY_BASE_URL: http://immich-server:2283
+      GALLERY_ADMIN_API_KEY: ${GALLERY_ADMIN_API_KEY:-}
+    depends_on:
+      immich-server:
+        condition: service_healthy
+    restart: "no"

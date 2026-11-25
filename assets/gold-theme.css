@@ -1,0 +1,11 @@
+/* Penny's beige + bronze theme (goose-qt inspired) + AdwaitaMono Nerd Font */
+* { font-family: "AdwaitaMono Nerd Font", "Adwaita Mono", ui-monospace, monospace !important; }
+html, body { background-color: #f0e6d2 !important; color: #5c3d1e !important; }
+nav, aside, header { background-color: #e6d9bc !important; color: #5c3d1e !important; }
+main { background-color: #f0e6d2 !important; }
+div[class*="card"], section, article { background-color: #faf6ec !important; border-color: #d4c5a0 !important; color: #5c3d1e !important; }
+input, select, textarea { background-color: #faf6ec !important; color: #5c3d1e !important; border-color: #b08d3e !important; }
+button { background-color: #b08d3e !important; color: #faf6ec !important; border-color: #8c6a3c !important; }
+button:hover { background-color: #8c6a3c !important; }
+a { color: #8c6a3c !important; }
+h1, h2, h3, h4, h5, h6 { color: #5c3d1e !important; }
