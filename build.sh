@@ -71,7 +71,11 @@ for path in sorted(glob.glob('assets/*.svg')):
 PYEOF
 
 # 4. The dark logo variant must be the flower with ONLY the fill changed.
-if ! sed 's/#8FB0FF/#1E3CDC/g' assets/logo-mark-dark.svg | cmp -s - assets/spirograph-flower-mark.svg; then
+#    Line endings are stripped from both sides first: a Windows checkout
+#    (core.autocrlf) gives the files on disk CRLF endings while sed emits
+#    LF, and a raw cmp would fail on that alone (seen on Penny's PC,
+#    2026-11-25). The check is about the artwork, not the checkout's EOLs.
+if ! sed 's/#8FB0FF/#1E3CDC/g' assets/logo-mark-dark.svg | tr -d '\r' | cmp -s - <(tr -d '\r' < assets/spirograph-flower-mark.svg); then
   echo "PRE-FLIGHT FAILED: assets/logo-mark-dark.svg is not the flower with only the fill color changed." >&2
   exit 1
 fi

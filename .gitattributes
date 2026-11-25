@@ -1,0 +1,11 @@
+# Always check text files out with LF endings, on every platform.
+# A Windows CRLF checkout breaks byte-exact checks and would bake
+# CRLF copies of the artwork into the Docker image.
+* text=auto eol=lf
+*.svg text eol=lf
+*.css text eol=lf
+*.sh text eol=lf
+*.mjs text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+Dockerfile text eol=lf
